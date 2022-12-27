@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     View,
     StatusBar,
     ScrollView,
+    TouchableOpacity,
+    Text,
+    Animated
 } from 'react-native';
 import { COLOURS, Items } from '../../database/Database';
 import HomeCategoriesBar from "../components/HomeCategoriesBar"
@@ -12,7 +15,6 @@ import Header from '../components/Header';
 
 import CollectionsSection from '../components/CollectionsSection';
 import { useGetElasticDataMutation } from "../api/pricesureApi.js"
-import util from "util"
 
 
 const Home = ({ navigation }) => {
@@ -75,8 +77,9 @@ const Home = ({ navigation }) => {
         }
     }
 
-
+    // show ? "translate-x-0" : "-translate-x-72"
     return (<>
+
         <View
             style={{
                 width: '100%',

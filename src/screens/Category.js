@@ -14,7 +14,6 @@ import { useGetElasticDataMutation } from "../api/pricesureApi.js"
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-
 const Category = ({ navigation, route }) => {
 
     const searchFilters = route?.params;
@@ -39,16 +38,6 @@ const Category = ({ navigation, route }) => {
     if (searchFilters?.searchQuery) {
         elasticQueryObj.searchQuery = searchFilters?.searchQuery;
     }
-    // if (searchFilters?.category) {
-    //     elasticQueryObj.categoryFilter.push(searchFilters?.category);
-    // }
-    // if (searchFilters?.domain) {
-    //     elasticQueryObj.domainFilter.push(searchFilters?.domain);
-    // }
-    // if (searchFilters?.vendor) {
-    //     elasticQueryObj.vendorFilter.push(searchFilters.vendor);
-    // }
-
 
 
     const getProducts = async () => {
@@ -177,9 +166,10 @@ const Category = ({ navigation, route }) => {
         domainFiltersList,
         categoryFiltersList,
     ]);
-
-    console.log("elastic query OBJ", elasticQueryObj.vendorFilter);
-    console.log("vendor state", vendorFiltersList);
+    const drawerStyles = {
+        drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3 },
+        main: { paddingLeft: 3 },
+    }
 
     return (<>
         <View
@@ -187,7 +177,8 @@ const Category = ({ navigation, route }) => {
                 width: '100%',
                 height: '100%',
                 backgroundColor: COLOURS.white,
-            }}>
+            }}
+        >
 
             <StatusBar backgroundColor={COLOURS.white} barStyle="dark-content" />
 
@@ -201,92 +192,93 @@ const Category = ({ navigation, route }) => {
                 aggregations={aggregations}
             />
 
+            <ScrollView showsVerticalScrollIndicator={false}>
 
-            {/* vendors filter bar  */}
-            {vendorFiltersList.length !== 0 ?
-                <View className="flex-row px-2 gap-2 justify-start items-center py-1">
-                    <Text>Vendor:</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        <View className="flex-row gap-2">
-                            {
-                                vendorFiltersList?.map((filter, index) => {
-                                    return (<TouchableOpacity
-                                        className="flex-row justify-center items-center  rounded border-2 border-green-500 px-2"
-                                        onPress={() => removeVendorFilter(filter)}
-                                    >
-                                        <Text
-                                            key={index}
-                                            className="mr-2"
+                {/* vendors filter bar  */}
+                {vendorFiltersList.length !== 0 ?
+                    <View className="flex-row px-2 gap-2 justify-start items-center py-1">
+                        <Text>Vendor:</Text>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                            <View className="flex-row gap-2">
+                                {
+                                    vendorFiltersList?.map((filter, index) => {
+                                        return (<TouchableOpacity
+                                            className="flex-row justify-center items-center  rounded border-2 border-green-500 px-2"
+                                            onPress={() => removeVendorFilter(filter)}
                                         >
-                                            {filter}
-                                        </Text>
-                                        <FontAwesome name="close" color={"green"} size={15} />
-                                    </TouchableOpacity>
-                                    )
-                                })
-                            }
-                        </View>
-                    </ScrollView>
-                </View> : null
-            }
+                                            <Text
+                                                key={index}
+                                                className="mr-2"
+                                            >
+                                                {filter}
+                                            </Text>
+                                            <FontAwesome name="close" color={"green"} size={15} />
+                                        </TouchableOpacity>
+                                        )
+                                    })
+                                }
+                            </View>
+                        </ScrollView>
+                    </View> : null
+                }
 
-            {/* domain filter bar  */}
-            {domainFiltersList.length !== 0 ?
-                <View className="flex-row px-2 gap-2 justify-start items-center py-1">
-                    <Text>Domain:</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        <View className="flex-row gap-2">
-                            {
-                                domainFiltersList?.map((filter, index) => {
-                                    return (<TouchableOpacity
-                                        className="flex-row justify-center items-center  rounded border-2 border-green-500 px-2"
-                                        onPress={() => removeDomainFilter(filter)}
-                                    >
-                                        <Text
-                                            key={index}
-                                            className="mr-2"
+                {/* domain filter bar  */}
+                {domainFiltersList.length !== 0 ?
+                    <View className="flex-row px-2 gap-2 justify-start items-center py-1">
+                        <Text>Domain:</Text>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                            <View className="flex-row gap-2">
+                                {
+                                    domainFiltersList?.map((filter, index) => {
+                                        return (<TouchableOpacity
+                                            className="flex-row justify-center items-center  rounded border-2 border-green-500 px-2"
+                                            onPress={() => removeDomainFilter(filter)}
                                         >
-                                            {filter}
-                                        </Text>
-                                        <FontAwesome name="close" color={"green"} size={15} />
-                                    </TouchableOpacity>
-                                    )
-                                })
-                            }
-                        </View>
-                    </ScrollView>
-                </View> : null
-            }
+                                            <Text
+                                                key={index}
+                                                className="mr-2"
+                                            >
+                                                {filter}
+                                            </Text>
+                                            <FontAwesome name="close" color={"green"} size={15} />
+                                        </TouchableOpacity>
+                                        )
+                                    })
+                                }
+                            </View>
+                        </ScrollView>
+                    </View> : null
+                }
 
-            {/* domain filter bar  */}
-            {categoryFiltersList.length !== 0 ?
-                <View className="flex-row px-2 gap-2 justify-start items-center py-1">
-                    <Text>Category:</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        <View className="flex-row gap-2">
-                            {
-                                categoryFiltersList?.map((filter, index) => {
-                                    return (<TouchableOpacity
-                                        className="flex-row justify-center items-center  rounded border-2 border-green-500 px-2"
-                                        onPress={() => removeCategoryFilter(filter)}
-                                    >
-                                        <Text
-                                            key={index}
-                                            className="mr-2"
+                {/* domain filter bar  */}
+                {categoryFiltersList.length !== 0 ?
+                    <View className="flex-row px-2 gap-2 justify-start items-center py-1">
+                        <Text>Category:</Text>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                            <View className="flex-row gap-2">
+                                {
+                                    categoryFiltersList?.map((filter, index) => {
+                                        return (<TouchableOpacity
+                                            className="flex-row justify-center items-center  rounded border-2 border-green-500 px-2"
+                                            onPress={() => removeCategoryFilter(filter)}
                                         >
-                                            {filter}
-                                        </Text>
-                                        <FontAwesome name="close" color={"green"} size={15} />
-                                    </TouchableOpacity>
-                                    )
-                                })
-                            }
-                        </View>
-                    </ScrollView>
-                </View> : null
-            }
+                                            <Text
+                                                key={index}
+                                                className="mr-2"
+                                            >
+                                                {filter}
+                                            </Text>
+                                            <FontAwesome name="close" color={"green"} size={15} />
+                                        </TouchableOpacity>
+                                        )
+                                    })
+                                }
+                            </View>
+                        </ScrollView>
+                    </View> : null
+                }
 
-            {/* <View className="w-full px-2 mt-4">
+                {/* <View className="w-full px-2 mt-4">
                 <TouchableOpacity
                     className="rounded px-2 pb-1 w-20 bg-blue-500 flex-row justify-center items-center "
                     onPress={getProducts}
@@ -295,7 +287,7 @@ const Category = ({ navigation, route }) => {
                 </TouchableOpacity>
             </View> */}
 
-            <ScrollView showsVerticalScrollIndicator={false}>
+
                 <View
                     style={{
                         marginBottom: 10,

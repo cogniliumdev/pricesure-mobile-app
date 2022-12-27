@@ -1,14 +1,15 @@
-import { View, Text, Button, TextInput, Pressable, TouchableOpacity } from "react-native";
-import { Link } from "@react-navigation/native";
+import { View, Text, TextInput, Pressable, TouchableOpacity } from "react-native";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState } from "react";
-
+import SideBar from "./SideBar";
 
 
 const Header = ({ navigation }) => {
     const [searchQuery, setSearchQuery] = useState();
+    const [handelToggleSidebar, sethandelToggleSidebar] = useState(false);
+
 
     const handelSearch = () => {
         if (searchQuery == null) return;
@@ -16,22 +17,23 @@ const Header = ({ navigation }) => {
     }
 
     return (<>
+
+        {/* SIDEBAR COPMPONENT */}
+        <SideBar handelToggleSidebar={handelToggleSidebar} />
+
+        {/* HEADER COPMPONENT */}
         <View
             className="w-full flex-row justify-between items-center pt-2 px-2 bg-blue-500"
         >
             <Text className="text-xl text-white font-bold">PriceSure</Text>
 
             <View className="flex-row gap-3">
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => sethandelToggleSidebar(!handelToggleSidebar)}
+                >
                     <Entypo
                         name="shopping-bag"
-                        style={{
-                            fontSize: 18,
-                            color: "black",
-                            padding: 9,
-                            borderRadius: 10,
-                            backgroundColor: "white",
-                        }}
+                        style={{ fontSize: 18, color: "black", padding: 9, borderRadius: 10, backgroundColor: "white" }}
                     />
                 </TouchableOpacity>
 
@@ -39,11 +41,7 @@ const Header = ({ navigation }) => {
                     <MaterialCommunityIcons
                         name="cart"
                         style={{
-                            fontSize: 18,
-                            color: "black",
-                            padding: 9,
-                            borderRadius: 10,
-                            backgroundColor: "white",
+                            fontSize: 18, color: "black", padding: 9, borderRadius: 10, backgroundColor: "white"
                         }}
                     />
                 </TouchableOpacity>
@@ -66,6 +64,7 @@ const Header = ({ navigation }) => {
                 </Pressable>
             </View>
         </View>
+
     </>
     )
 }
