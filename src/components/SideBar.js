@@ -2,10 +2,10 @@ import { View, Text, Animated, TouchableOpacity, Pressable, LayoutAnimation, Scr
 import { useState, useRef, useEffect } from "react";
 import { List } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { categories } from "../data/categories.js";
 
 
-
-const SideBar = ({ handelToggleSidebar }) => {
+const SideBar = ({ handelToggleSidebar, navigation }) => {
     const [show, setShow] = useState(false);
 
 
@@ -25,59 +25,16 @@ const SideBar = ({ handelToggleSidebar }) => {
         toggleSidebar();
     }, [handelToggleSidebar]);
 
-    const arr = [
-        {
-            title: "Electronic Devices",
-            subCategory1: [
-                {
-                    title: "Smart Phones",
-                    subCategory2: [
-                        { title: "nokia mobiles" },
-                        { title: "redmi mobiles" },
-                        { title: "infinix mobiles" },
-                    ]
-                },
-                {
-                    title: "Laptops",
-                    subCategory2: [
-                        { title: "refurbished laptops" },
-                        { title: "traditional laptops" },
-                    ]
-                },
-                {
-                    title: "Smart Watches",
-                    subCategory2: [
-                        { title: "smart watches" },
-                    ]
-                },
-
-            ]
-        },
-        {
-            title: "Health & Beauty",
-            subCategory1: [
-                {
-                    title: "Fragrances",
-                    subCategory2: [
-                        { title: "women fragrances" },
-                        { title: "men fragrances" },
-                        { title: "unisex" },
-                    ]
-                },
-                {
-                    title: "Makeup",
-                    subCategory2: [
-                        { title: "foundation" },
-                        { title: "makeup accessories" },
-                        { title: "lips" },
-                    ]
-                },
-
-            ]
-        },
-    ]
 
 
+    const animation = () => {
+        LayoutAnimation.configureNext({
+            duration: 100,
+            create: { type: "linear", property: "opacity" },
+            update: { type: "linear", springDamping: 0.4 },
+            delete: { type: "linear", property: "opacity" }
+        });
+    };
     return (
         <>
             <Animated.View
@@ -105,20 +62,13 @@ const SideBar = ({ handelToggleSidebar }) => {
                     {/* ACCORDION  */}
                     <List.Section>
                         {/* first level */}
-                        {arr?.map((category, index) => {
+                        {categories?.map((category, index) => {
                             return (
                                 <List.Accordion
                                     key={index}
                                     title={category.title}
-                                    onPress={() => {
-                                        LayoutAnimation.configureNext({
-                                            duration: 100,
-                                            create: { type: "linear", property: "opacity" },
-                                            update: { type: "linear", springDamping: 0.4 },
-                                            delete: { type: "linear", property: "opacity" }
-                                        });
-                                    }}
-                                    left={props => <List.Icon {...props} color="blue" icon="face-woman" />}
+                                    onPress={animation}
+                                    left={props => <List.Icon {...props} color="#3787EE" icon={category.icon} />}
                                 >
                                     {/* Second Level  */}
                                     {category?.subCategory1?.map((subCategory1, index) => {
@@ -126,16 +76,9 @@ const SideBar = ({ handelToggleSidebar }) => {
                                             <List.Accordion
                                                 key={index}
                                                 className="bg-blue-200 border-b border-slate-400"
-                                                onPress={() => {
-                                                    LayoutAnimation.configureNext({
-                                                        duration: 100,
-                                                        create: { type: "linear", property: "opacity" },
-                                                        update: { type: "linear", springDamping: 0.4 },
-                                                        delete: { type: "linear", property: "opacity" }
-                                                    });
-                                                }}
+                                                onPress={animation}
                                                 title={subCategory1.title}
-                                                left={props => <List.Icon {...props} color="blue" icon="plus" />}
+                                                left={props => <List.Icon {...props} color="#3787EE" icon="plus" />}
                                             >
                                                 {/* Third Level  */}
                                                 {subCategory1?.subCategory2?.map((subCategory2, index) => {
@@ -145,6 +88,7 @@ const SideBar = ({ handelToggleSidebar }) => {
                                                             left={props => <Text></Text>}
                                                             key={index}
                                                             title={subCategory2.title}
+                                                            onPress={() => navigation.push("Category", { category: subCategory2.title })}
                                                         />
                                                     );
                                                 })

@@ -19,7 +19,7 @@ const Header = ({ navigation }) => {
     return (<>
 
         {/* SIDEBAR COPMPONENT */}
-        <SideBar handelToggleSidebar={handelToggleSidebar} />
+        <SideBar handelToggleSidebar={handelToggleSidebar} navigation={navigation} />
 
         {/* HEADER COPMPONENT */}
         <View
