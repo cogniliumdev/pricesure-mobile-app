@@ -1,4 +1,4 @@
-import { View, Text, Animated, TouchableOpacity, Pressable } from "react-native";
+import { View, Text, Animated, TouchableOpacity, Pressable, LayoutAnimation, ScrollView } from "react-native";
 import { useState, useRef, useEffect } from "react";
 import { List } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -89,66 +89,79 @@ const SideBar = ({ handelToggleSidebar }) => {
                     }]
                 }}
             >
-                <View className="flex-row justify-between items-center px-2 mt-5">
-                    <Text className="text-blue-500 text-lg font-bold">
+                <View className="bg-blue-500 py-3 flex-row justify-between items-center px-2 mt-5">
+                    <Text className="text-white text-lg font-bold">
                         CATEGORIES
                     </Text>
-                    <TouchableOpacity className="p-3 bg-orange-200 rounded-md"
+                    {/* <TouchableOpacity className="p-2 bg-white rounded-md"
                         onPress={toggleSidebar}
                     >
-                        <FontAwesome name="close" color={"black"} size={20} />
+                        <FontAwesome name="close" color={"black"} size={15} />
 
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
 
+                <ScrollView>
+                    {/* ACCORDION  */}
+                    <List.Section>
+                        {/* first level */}
+                        {arr?.map((category, index) => {
+                            return (
+                                <List.Accordion
+                                    key={index}
+                                    title={category.title}
+                                    onPress={() => {
+                                        LayoutAnimation.configureNext({
+                                            duration: 100,
+                                            create: { type: "linear", property: "opacity" },
+                                            update: { type: "linear", springDamping: 0.4 },
+                                            delete: { type: "linear", property: "opacity" }
+                                        });
+                                    }}
+                                    left={props => <List.Icon {...props} color="blue" icon="face-woman" />}
+                                >
+                                    {/* Second Level  */}
+                                    {category?.subCategory1?.map((subCategory1, index) => {
+                                        return (
+                                            <List.Accordion
+                                                key={index}
+                                                className="bg-blue-200 border-b border-slate-400"
+                                                onPress={() => {
+                                                    LayoutAnimation.configureNext({
+                                                        duration: 100,
+                                                        create: { type: "linear", property: "opacity" },
+                                                        update: { type: "linear", springDamping: 0.4 },
+                                                        delete: { type: "linear", property: "opacity" }
+                                                    });
+                                                }}
+                                                title={subCategory1.title}
+                                                left={props => <List.Icon {...props} color="blue" icon="plus" />}
+                                            >
+                                                {/* Third Level  */}
+                                                {subCategory1?.subCategory2?.map((subCategory2, index) => {
+                                                    return (
+                                                        <List.Item
+                                                            className="bg-blue-100"
+                                                            left={props => <Text></Text>}
+                                                            key={index}
+                                                            title={subCategory2.title}
+                                                        />
+                                                    );
+                                                })
 
-                <List.Section>
+                                                }
+                                            </List.Accordion>
+                                        )
+                                    })
 
-                    {/* first level */}
-                    {arr?.map((category, index) => {
-                        return (
-                            <List.Accordion
-                                key={index}
-                                title={category.title}
-                                style={() => {
-                                    return { backgroundColor: "black" };
-                                }}
-                                left={props => <List.Icon {...props} color="blue" icon="face-woman" />}
-                            >
-                                {/* Second Level  */}
-                                {category?.subCategory1?.map((subCategory1, index) => {
-                                    return (
-                                        <List.Accordion
-                                            key={index}
-                                            title={subCategory1.title}
-                                            left={props => <List.Icon {...props} color="blue" icon="plus-thick" />}
-                                        >
-                                            {/* Third Level  */}
-                                            {subCategory1?.subCategory2?.map((subCategory2, index) => {
-                                                return (
-                                                    <List.Item
-                                                        left={props => <Text></Text>}
-                                                        key={index}
-                                                        title={subCategory2.title}
-                                                    />
-                                                );
-                                            })
+                                    }
+                                </List.Accordion>
+                            );
+                        }
+                        )}
 
-                                            }
-                                        </List.Accordion>
-                                    )
-                                })
-
-                                }
-
-
-                            </List.Accordion>
-                        );
-                    }
-                    )}
-
-                </List.Section>
-
+                    </List.Section>
+                </ScrollView>
 
 
                 {/* RIGHT BAR  */}

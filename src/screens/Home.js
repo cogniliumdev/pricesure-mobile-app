@@ -3,9 +3,6 @@ import {
     View,
     StatusBar,
     ScrollView,
-    TouchableOpacity,
-    Text,
-    Animated
 } from 'react-native';
 import { COLOURS, Items } from '../../database/Database';
 import HomeCategoriesBar from "../components/HomeCategoriesBar"
@@ -54,10 +51,9 @@ const Home = ({ navigation }) => {
                 hitsSize: 4
             });
             setDiscountedProducts(res.data.hits);
-            // console.log(util.inspect(res.data.hits, { showHidden: true, depth: null, colors: true }));
         }
         catch (err) {
-            console.log(err);
+            console.log("DISCOUNTED PRODS ERR", err);
         }
     }
 
@@ -71,13 +67,11 @@ const Home = ({ navigation }) => {
                 hitsSize: 4
             });
             setProductsByDomain(res.data.hits);
-            // console.log(util.inspect(res.data.hits, { showHidden: true, depth: null, colors: true }));
         } catch (err) {
             console.log(err)
         }
     }
 
-    // show ? "translate-x-0" : "-translate-x-72"
     return (<>
 
         <View

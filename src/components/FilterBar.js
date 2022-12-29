@@ -1,5 +1,4 @@
-import { View, Text, Pressable, ScrollView, TouchableOpacity } from "react-native";
-import { Link } from "@react-navigation/native";
+import { View, Text, LayoutAnimation, Pressable, ScrollView, TouchableOpacity } from "react-native";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 
@@ -133,7 +132,10 @@ const FilterBar = ({ aggregations, addVendorFilter, addDomainFilter, addCategory
                     <Pressable
                         android_ripple={{ color: "slate-200" }}
                         className={`flex-row justify-center items-center ${showCategory ? `bg-slate-300` : `bg-white`} px-2 py-1 rounded-lg border border-slate-300`}
-                        onPress={() => setShowCategory(!showCategory)}
+                        onPress={() => {
+                            setShowCategory(!showCategory);
+                            // LayoutAnimation.easeInEaseOut();
+                        }}
                     >
                         <Text className="mr-2">Category</Text>
                         {
