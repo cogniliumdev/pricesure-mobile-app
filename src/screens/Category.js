@@ -10,6 +10,7 @@ import { COLOURS, Items } from '../../database/Database';
 import ProductCard from "../components/ProductCard"
 import FilterBar from "../components/FilterBar"
 import Header from '../components/Header';
+import Pagination from '../components/Pagination';
 import { useGetElasticDataMutation } from "../api/pricesureApi.js"
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -23,13 +24,13 @@ const Category = ({ navigation, route }) => {
     const [vendorFiltersList, setVendorFiltersList] = useState(searchFilters.vendor ? [searchFilters.vendor] : []);
     const [domainFiltersList, setDomainFiltersList] = useState(searchFilters.domain ? [searchFilters.domain] : []);
     const [categoryFiltersList, setCategoryFiltersList] = useState(searchFilters.category ? [searchFilters.category] : []);
+    const [pagination, setPagination] = useState({ from: 0, to: 0 });
 
     const [getElasticData, getElasticData_Obj] = useGetElasticDataMutation();
 
-
     const elasticQueryObj = {
         hits: ["discount", "vendor", "price", "title", "price_before_sale", "image", "domain"],
-        hitsSize: 50,
+        hitsSize: 100,
         categoryFilter: [].concat(categoryFiltersList),
         vendorFilter: [].concat(vendorFiltersList),
         domainFilter: [].concat(domainFiltersList)
@@ -48,6 +49,7 @@ const Category = ({ navigation, route }) => {
             setProducts(res.data.hits);
             setProductsNumber(res.data.hits.items.length);
             setAggregations({ facets: res.data.facets, summary: res.data.summary });
+            setPagination({ from: 0, to: 10 })
 
             // Vendor Filters 
             res.data?.summary?.appliedFilters?.forEach((filter) => {
@@ -362,12 +364,19 @@ const Category = ({ navigation, route }) => {
                                     flexWrap: 'wrap',
                                     justifyContent: 'space-around',
                                 }}>
-                                {products.items?.map((data, index) => {
+                                {products?.items?.slice(pagination?.from, pagination?.to)?.map((data, index) => {
                                     return <ProductCard data={data} key={index} navigation={navigation} />;
                                 })}
                             </View>
                         </View>
                 }
+                <View className="px-4 mt-3 mb-3">
+                <Pagination
+                    productsNumber={productsNumber}
+                    setPagination={setPagination}
+                    />
+                    </View>
+
             </ScrollView>
         </View>
     </>

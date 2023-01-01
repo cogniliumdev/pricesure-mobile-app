@@ -1,7 +1,6 @@
 import { View, Text, TextInput, Pressable, TouchableOpacity } from "react-native";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState } from "react";
 import SideBar from "./SideBar";
 
@@ -25,26 +24,19 @@ const Header = ({ navigation }) => {
         <View
             className="w-full flex-row justify-between items-center pt-2 px-2 bg-blue-500"
         >
-            <Text className="text-xl text-white font-bold">PriceSure</Text>
 
             <View className="flex-row gap-3">
                 <TouchableOpacity
                     onPress={() => sethandelToggleSidebar(!handelToggleSidebar)}
                 >
                     <Entypo
-                        name="shopping-bag"
-                        style={{ fontSize: 18, color: "black", padding: 9, borderRadius: 10, backgroundColor: "white" }}
+                        name="menu"
+                        style={{ fontSize: 18, color: "black", padding: 7, borderRadius: 8, backgroundColor: "white" }}
                     />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('MyCart')}>
-                    <MaterialCommunityIcons
-                        name="cart"
-                        style={{
-                            fontSize: 18, color: "black", padding: 9, borderRadius: 10, backgroundColor: "white"
-                        }}
-                    />
-                </TouchableOpacity>
+                <Text className="text-xl text-white font-bold">PriceSure</Text>
+
             </View>
         </View>
 
